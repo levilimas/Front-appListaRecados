@@ -1,0 +1,33 @@
+body {
+    background-image: url(../img/fundo-recados.png);
+    background-size: cover;
+    width:100%;
+    height: 100vh 100vw;
+    padding : 50px 0;
+    margin: 0;
+}
+
+h1, th{
+    color:#FFF;
+}
+.banner-sec {
+
+    background-size:cover; 
+    min-height:500px; 
+    border-radius: 0 10px 10px 0; 
+    padding:0;
+}
+
+.container {
+    background:rgb(0, 120, 212); 
+    border-radius: 20px; 
+    box-shadow:none;
+}
+
+
+
+
+
+
+
+
