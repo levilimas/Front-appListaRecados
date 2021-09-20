@@ -14,21 +14,22 @@
   </head>
   <body onload="listarRecados()">
     <div class="container">
+      <!-- Início do formulário de recados -->
       <div class = "header clearfix">
         <h1>Scraps</h1>
         <div class="jumbotron">
-          <form id="formulario">
+          <form id="form">
               <div class="form-group">
                 <label>Description:</label>
-                <input type="text" id="descricao" class="form-control">
+                <input type="text" id="describe" class="form-control">
               </div>
               <div class="form-group">
                 <label>Detail:</label>
-                <input type="text" id="detalhamento" class="form-control">
+                <input type="text" id="detailing" class="form-control">
               </div>
                 <button type="submit" class="btn btn-primary">Add</button>
            </form>
-           <input id="idRecado" type="hidden" value="" />
+           <input id="idScrap" type="hidden" value="" />
         </div>
       </div>
       <div class="row marketing">
@@ -43,7 +44,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody id="listaDeRecados"></tbody>
+            <tbody id="ScrapList"></tbody>
           </table>
 
         </div>

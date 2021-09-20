@@ -1,85 +1,87 @@
-axios.get('/recados').then(response => {response.data.forEach(item => {
+axios.defaults.baseURL = 'https://git.heroku.com/back-app-lista-recados.git'
+
+axios.get('/scraps').then(response => {response.data.forEach(item => {
 lista.innerHTML += `${item.nome} <br/>`})}).catch(error => console.log(error));
-let recados = [];
-document.getElementById("formulario").addEventListener("submit", adicionarRecado);
-async function adicionarRecado(e) {e.preventDefault();
-  const id = document.getElementById('idRecado');
-  const detalhamento = document.getElementById('detalhamento');
-  const descricao = document.getElementById('descricao');
-  const recadoM = {
-    detalhamento: detalhamento.value,
-    descricao: descricao.value,
+let scraps = [];
+document.getElementById("form").addEventListener("submit", addScrap);
+async function addScrap(e) {e.preventDefault();
+  const id = document.getElementById('idScrap');
+  const detailing = document.getElementById('detailing');
+  const description = document.getElementById('description');
+  const scrapM = {
+    detailing: detailing.value,
+    description: description.value,
   }
   try {
     if (!id.value) {
-      await axios.post("/recados", recadoM);
+      await axios.post("/Scraps", scrapM);
     } else {
-      await axios.put(`/recados/${id.value}`, recadoM);
+      await axios.put(`/Scraps/${id.value}`, scrapM);
     }
   } catch (error) {
-    console.error('Erro de Requisição: ', error);
+    console.error('request error: ', error);
   }
-  listarRecados();
+  listScraps();
   id.value = "";
-  detalhamento.value = "";
-  descricao.value = "";
+  detailing.value = "";
+  description.value = "";
 }
-async function listarRecados() {
+async function listScraps() {
   try {
-    let response = await axios.get('/recados');
+    let response = await axios.get('/Scraps');
     if (!response.data.length) {
       return;
     }
-    recados = response.data;
-    renderizarRecados();
+    Scraps = response.data;
+    renderScrap();
   } catch (error) {
-    console.error('Erro de Requisição: ', error)
+    console.error('request error: ', error)
   }
 }
-function renderizarRecados() {
-  const listaDeRecados = document.getElementById('listaDeRecados');
-  listaDeRecados.innerHTML = "";
-  for (let recado of recados) {
-    const btn = `<button type="button" class="btn btn-success" onclick="editarRecado('${recado.id}')">
+function renderScrap() {
+  const listOfScraps = document.getElementById('listOfScraps');
+  listOfScraps.innerHTML = "";
+  for (let scrap of Scraps) {
+    const btn = `<button type="button" class="btn btn-success" onclick="editScrap('${scrap.id}')">
                     Editar
                   </button>
-                  <button type="button" class="btn btn-danger" onclick="apagarRecado('${recado.id}')">
+                  <button type="button" class="btn btn-danger" onclick="deleteScrap('${scrap.id}')">
                     Apagar
                   </button>`;
-    listaDeRecados.innerHTML += `
-                              <tr class="itens-recados">
-                              <td> ${recado.id}</td>
-                              <td> ${recado.detalhamento}</td>
-                              <td> ${recado.descricao}</td>
+    listOfScraps.innerHTML += `
+                              <tr class="itens-Scraps">
+                              <td> ${scrap.id}</td>
+                              <td> ${scrap.detailing}</td>
+                              <td> ${scrap.description}</td>
                               <td>${btn}</tr>
                               </tr>`;
-    document.getElementById("descricao").focus();
+    document.getElementById("description").focus();
   }
 }
-async function apagarRecado(idDeletar) {
+async function deleteScrap(idDelete) {
 try {
-  const response = await axios.delete(`/recados/`, {
-    data: { id: idDeletar }
+  const response = await axios.delete(`/Scraps/`, {
+    data: { id: idDelete }
   }) ;
   if (response.status != 204) {
     return
   }
-  const index = recados.findIndex((recado) => idDeletar == recado.id);
-    recados.splice(index, 1);
-    renderizarRecados();
+  const index = Scraps.findIndex((scrap) => idDelete == scrap.id);
+    Scraps.splice(index, 1);
+    renderScrap();
   } catch (error) {
   console.error(error)
   }
 }
-// async function editarRecado(idEditar) {
-//   const edit = await axios.put(`/recados/`, {
-//     data: { id: idEditar }
+// async function editScrap(idEdit) {
+//   const edit = await axios.put(`/Scraps/`, {
+//     data: { id: idEdit }
 //   });
-//   const indexRecado = recados.findIndex((recadosAut) => {
-//   return recadosAut.id === id
+//   const indexScrap = Scraps.findIndex((ScrapsAut) => {
+//   return ScrapsAut.id === id
 //   });
-//   recados[indexRecado].document.getElementById('idRecado').value = edit.idRecado
-//   recados[indexRecado].document.getElementById('detalhamento').value = edit.detalhamento
-//   recados[indexRecado].cdocument.getElementById('descricao').value = edit.descricaos
+//   Scraps[indexScrap].document.getElementById('idScrap').value = edit.idScrap
+//   Scraps[indexScrap].document.getElementById('detailing').value = edit.detailing
+//   Scraps[indexScrap].cdocument.getElementById('description').value = edit.descriptions
 //   listagem.innerHTML += "";
 // }
